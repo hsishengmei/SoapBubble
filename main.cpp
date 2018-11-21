@@ -1,8 +1,9 @@
 #include "IorCalculator.h"
 
-int main() 
+int main()
 {
 	IorCalculator IorCalc("CuZn.csv");
-	IorCalc.outputResult("output.csv");
+	IorCalc.simulate_ior();
+	IorCalc.output_result("output.csv");
 	return 0;
 }
