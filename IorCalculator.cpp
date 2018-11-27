@@ -11,7 +11,7 @@ void IorCalculator::init_ior(const float f)
 	std::cout << "successful init: ior_fixed=" << f << "\n";
 }
 
-void IorCalculator::init_ior(const char* filename)
+void IorCalculator::init_ior(const std::string filename)
 {
 	std::string line;
 	std::ifstream myfile(filename);
@@ -128,38 +128,65 @@ float IorCalculator::calc_recur_R(const float n1, const float n2, const float th
 
 float IorCalculator::calc_rs(const float n1, const float n2, const float theta_i, const float theta_t)
 {
-	float p1 = n1*angle_cos(theta_i);
-	float p2 = n2*angle_cos(theta_t);
-	return (p1-p2)/(p1+p2);
+	// float p1 = n1*angle_cos(theta_i);
+	// float p2 = n2*angle_cos(theta_t);
+	// return (p1-p2)/(p1+p2);
+	if (theta_i == 0) return (n1-n2) / (n1+n2);
+	return -1*angle_sin(theta_i-theta_t) / angle_sin(theta_i+theta_t);
 }
 
 float IorCalculator::calc_rp(const float n1, const float n2, const float theta_i, const float theta_t)
 {
-	float p1 = n2*angle_cos(theta_i);
-	float p2 = n1*angle_cos(theta_t);
-	return (p1-p2)/(p1+p2);
+	// float p1 = n2*angle_cos(theta_i);
+	// float p2 = n1*angle_cos(theta_t);
+	// return (p1-p2)/(p1+p2);
+	if (theta_i == 0) return (n1-n2) / (n1+n2);
+	return angle_tan(theta_i-theta_t) / angle_tan(theta_i+theta_t);
 }
 
-void IorCalculator::output_result(const char * filename)
+void IorCalculator::output_result()
 {
-	std::ofstream myfile(filename);
-	if (myfile.is_open())
+	std::string s1 = "incident_angle.txt";
+	std::string s2 = "wavelength.txt";
+	std::string s3 = "reflectance.txt";
+	std::string s4 = "transmittance.txt";
+
+	std::ofstream f1(s1);
+	std::ofstream f2(s2);
+	std::ofstream f3(s3);
+	std::ofstream f4(s4);
+
+	if (f1.is_open() && f2.is_open() && f3.is_open() && f4.is_open())
 	{
-		std::stringstream ss;
-		ss << "Incident angle,Wavelength,Reflectance,Transmittance\n";
+		std::stringstream ss1;
+		std::stringstream ss2;
+		std::stringstream ss3;
+		std::stringstream ss4;
 
 		for (std::map<int, std::map<float, float[2]>>::iterator it=ior_sim.begin(); it!=ior_sim.end(); ++it)
 		{
 			for (std::map<float, float[2]>::iterator it2=it->second.begin(); it2!=it->second.end(); ++it2)
 			{
-				ss << it->first << "," << it2->first << ","
-					 << it2->second[0] << "," << it2->second[1] << "\n";
+				ss1 << it->first << "\n";
+				ss2 << it2->first << "\n";
+				ss3 << it2->second[0] << "\n";
+				ss4 << it2->second[1] << "\n";
 			}
 		}
 
-		std::string mystring = ss.str();
-		myfile << mystring;
+		std::string o1 = ss1.str();
+		std::string o2 = ss2.str();
+		std::string o3 = ss3.str();
+		std::string o4 = ss4.str();
 
-		myfile.close();
+		f1 << o1;
+		f2 << o2;
+		f3 << o3;
+		f4 << o4;
+
+		f1.close();
+		f2.close();
+		f3.close();
+		f4.close();
 	}
 }

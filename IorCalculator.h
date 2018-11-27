@@ -1,17 +1,18 @@
 #pragma once
 #include <map>
 #include <math.h>
+#include <string>
 
 class IorCalculator {
 public:
 	IorCalculator() {}
 	IorCalculator(const float f) { init_ior(f); }
-	IorCalculator(const char* c) { init_ior(c); }
+	IorCalculator(const std::string s) { init_ior(s); }
 	~IorCalculator() {}
 	void init_ior(const float);
-	void init_ior(const char*);
+	void init_ior(const std::string);
 	void init_thickness(const float);
-	void output_result(const char*);
+	void output_result();
 	void print_iorfile();
 	void simulate_bubble();
 	float calc_recur_R(const float, const float, const float, const float, const int, const int);
@@ -31,9 +32,10 @@ private:
 
 	float angle_sin(float t) { return sin(a2r(t)); }
 	float angle_cos(float t) { return cos(a2r(t)); }
+	float angle_tan(float t) { return tan(a2r(t)); }
 	float angle_asin(float n) { return r2a(asin(n)); }
 	float angle_acos(float n) { return r2a(acos(n)); }
 	float a2r(float a) { return a*PI/180; } // angle to rad
-	float r2a(float r) { return r*180/PI; } // angle to rad
+	float r2a(float r) { return r*180/PI; } // rad to angle
 	float PI=M_PI; //3.14159265;
 };

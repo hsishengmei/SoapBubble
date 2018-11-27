@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
 {
 	// IorCalculator IorCalc("C2H5OH.csv");
 	IorCalculator IorCalc;
-	float n = 1.33;
+	float n = 1.5;
 	float thickness = 500; //nm
 	if (argc == 3)
 	{
@@ -29,6 +29,6 @@ int main(int argc, char ** argv)
 
 	IorCalc.init_thickness(thickness);
 	IorCalc.simulate_bubble();
-	IorCalc.output_result("output2.csv");
+	IorCalc.output_result();
 	return 0;
 }
