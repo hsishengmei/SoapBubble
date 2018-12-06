@@ -2,6 +2,7 @@
 #include <map>
 #include <math.h>
 #include <string>
+#include <sstream>
 
 class IorCalculator {
 public:
@@ -15,7 +16,8 @@ public:
 	void output_result();
 	void print_iorfile();
 	void simulate_bubble();
-	float calc_recur_R(const float, const float, const float, const float, const int, const int);
+	void write_log();
+	float calc_recur_R(const float, const float, const float, const float, const float, const float, const int, const int);
 	float calc_rs(const float, const float, const float, const float);
 	float calc_rp(const float, const float, const float, const float);
 
@@ -29,6 +31,7 @@ private:
 	float thickness;
 	const int min_wl = 400;
 	const int max_wl = 700;
+	std::stringstream ss_log;
 
 	float angle_sin(float t) { return sin(a2r(t)); }
 	float angle_cos(float t) { return cos(a2r(t)); }
@@ -37,5 +40,5 @@ private:
 	float angle_acos(float n) { return r2a(acos(n)); }
 	float a2r(float a) { return a*PI/180; } // angle to rad
 	float r2a(float r) { return r*180/PI; } // rad to angle
-	float PI=M_PI; //3.14159265;
+	float PI=acos(-1); //3.14159265;
 };

@@ -5,30 +5,13 @@
 
 int main(int argc, char ** argv)
 {
-	// IorCalculator IorCalc("C2H5OH.csv");
-	IorCalculator IorCalc;
-	float n = 1.5;
-	float thickness = 500; //nm
-	if (argc == 3)
-	{
-		if (strcmp(argv[1], "-f") == 0)
-		{
-			std::cout << "init from file\n";
-			IorCalc.init_ior(argv[2]);
-		}
-		if (strcmp(argv[1], "-c") == 0)
-		{
-			std::cout << "init from constant\n";
-			IorCalc.init_ior(std::stof(argv[2]));
-		}
-	}
-	else
-	{
-		IorCalc.init_ior(n);
-	}
-
+	IorCalculator IorCalc("water_new.csv");
+	// IorCalculator IorCalc;
+	// float n = 1.5;
+	float thickness = std::stof(argv[1]); //nm
 	IorCalc.init_thickness(thickness);
 	IorCalc.simulate_bubble();
 	IorCalc.output_result();
+	IorCalc.write_log();
 	return 0;
 }
